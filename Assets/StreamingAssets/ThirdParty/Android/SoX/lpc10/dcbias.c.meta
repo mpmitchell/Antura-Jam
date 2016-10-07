@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: ca3b3c026d5f64cf4b4da230ffcd1f66
+timeCreated: 1475877464
+licenseType: Free
+PluginImporter:
+  serializedVersion: 1
+  iconMap: {}
+  executionOrder: {}
+  isPreloaded: 0
+  platformData:
+    Any:
+      enabled: 1
+      settings: {}
+    Editor:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
