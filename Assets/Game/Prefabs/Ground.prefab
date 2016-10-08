@@ -120,7 +120,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forwardSpeed: -10
-  deadZone: 5
-  horizontalSpeed: 5
-  limits: 10
+  horizontalSpeed: 10
+  limits: 20
   player: {fileID: 0}
