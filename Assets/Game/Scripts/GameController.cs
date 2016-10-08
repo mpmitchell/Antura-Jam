@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour {
 
 		Vector3 currentPosition = transform.position;
 		float roll = Input.gyro.attitude.eulerAngles.y;
+		float pitch = Input.gyro.attitude.eulerAngles.x;
 
 		if ((roll < 90.0f && roll > 20.0f) || Input.GetKey("left")) {
 			currentPosition.x += Time.fixedDeltaTime * horizontalSpeed;
@@ -34,6 +35,10 @@ public class GameController : MonoBehaviour {
 		}
 
 		transform.position = currentPosition;
+
+		if ((pitch > 70.0f && pitch < 90.0f) || Input.GetKeyDown("up")) {
+			player.SendMessage("Jump");
+		}
 	}
 
 	void OnGUI() {
