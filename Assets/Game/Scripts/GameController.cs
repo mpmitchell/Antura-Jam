@@ -4,7 +4,8 @@ public class GameController : MonoBehaviour {
 
 	[SerializeField] float forwardSpeed = -10.0f;
 	[SerializeField] float deadZone = 15.0f;
-	[SerializeField] float horizontalSpeed = 5.0f;
+	[SerializeField] float minSpeed = 0.5f;
+	[SerializeField] float maxSpeed = 10.0f;
 	[SerializeField] float limits = 20.0f;
 	[SerializeField] GameObject player;
 
@@ -25,9 +26,26 @@ public class GameController : MonoBehaviour {
 		float pitchRate = Input.gyro.rotationRate.x;
 
 		if ((roll < 90.0f && roll > deadZone) || Input.GetKey("left")) {
-			currentPosition.x -= Time.fixedDeltaTime * horizontalSpeed;
+      float speed = maxSpeed;
+
+      if (roll < 45.0f) {
+        float oldRange = (45.0f - deadZone);
+        float newRange = (maxSpeed - minSpeed);
+        speed = (((roll - deadZone) * newRange) / oldRange) + minSpeed;
+      }
+
+      currentPosition.x -= Time.fixedDeltaTime * speed;
 		} else if ((roll > 270.0f && roll < (360.0f - deadZone)) || Input.GetKey("right")) {
-			currentPosition.x += Time.fixedDeltaTime * horizontalSpeed;
+      float speed = maxSpeed;
+
+      if (roll > 315.0f) {
+        float oldRange = ((360.0f - deadZone) - 315.0f);
+        float newRange = (maxSpeed - minSpeed);
+        speed = (((roll - 315.0f) * newRange) / oldRange) + minSpeed;
+        speed = newRange - speed;
+      }
+
+      currentPosition.x += Time.fixedDeltaTime * speed;
 		}
 
 		if (currentPosition.x > limits) {
