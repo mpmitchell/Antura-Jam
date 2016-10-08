@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour {
 
 	[SerializeField] float forwardSpeed = -10.0f;
+	[SerializeField] float deadZone = 15.0f;
 	[SerializeField] float horizontalSpeed = 5.0f;
 	[SerializeField] float limits = 20.0f;
 	[SerializeField] GameObject player;
@@ -22,9 +23,9 @@ public class GameController : MonoBehaviour {
 		float roll = Input.gyro.attitude.eulerAngles.y;
 		float pitch = Input.gyro.attitude.eulerAngles.x;
 
-		if ((roll < 90.0f && roll > 20.0f) || Input.GetKey("left")) {
+		if ((roll < 90.0f && roll > deadZone) || Input.GetKey("left")) {
 			currentPosition.x += Time.fixedDeltaTime * horizontalSpeed;
-		} else if ((roll > 270.0f && roll < 340.0f) || Input.GetKey("right")) {
+		} else if ((roll > 270.0f && roll < (360.0f - deadZone)) || Input.GetKey("right")) {
 			currentPosition.x -= Time.fixedDeltaTime * horizontalSpeed;
 		}
 
