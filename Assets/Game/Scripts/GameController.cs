@@ -16,9 +16,9 @@ public class GameController : MonoBehaviour {
 		Vector3 currentPosition = transform.position;
 		float roll = Input.gyro.attitude.eulerAngles.y;
 
-		if (roll < 90.0f) {
+		if (roll < 90.0f && roll > 20.0f) {
 			currentPosition.x += Time.deltaTime * horizontalSpeed;
-		} else if (roll > 270.0f) {
+		} else if (roll > 270.0f && roll < 340.0f) {
 			currentPosition.x -= Time.deltaTime * horizontalSpeed;
 		}
 
