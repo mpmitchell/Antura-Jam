@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float horizontalSpeed = 10.0f;
 	[SerializeField] float limits = 20.0f;
   [SerializeField] float jumpForce = 5.0f;
+  [SerializeField] float balanceFactor = 0.1f;
 
   new Rigidbody rigidbody;
   new Collider collider;
@@ -22,20 +23,28 @@ public class PlayerController : MonoBehaviour {
       transform.Translate(Vector3.forward * Time.fixedDeltaTime * forwardSpeed);
     }
 
-    // Get Tilt Movement, clamped to limits
-		Vector3 currentPosition = transform.position;
-    currentPosition.x = Mathf.Clamp(currentPosition.x + Time.fixedDeltaTime * Input.acceleration.x * horizontalSpeed, -limits, limits);
+    // Get Tilt Movement
+    float displacement = 0.0f;
+    displacement = Time.fixedDeltaTime * Input.acceleration.x * horizontalSpeed;
 
     // Get Movement from keyboard
     if (Input.GetKey("right")) {
-      currentPosition.x = Mathf.Clamp(currentPosition.x + Time.fixedDeltaTime * horizontalSpeed, -limits, limits);
+      displacement = Time.fixedDeltaTime * horizontalSpeed;
     }
     if (Input.GetKey("left")) {
-      currentPosition.x = Mathf.Clamp(currentPosition.x + Time.fixedDeltaTime * -horizontalSpeed, -limits, limits);
+      displacement = Time.fixedDeltaTime * -horizontalSpeed;
+    }
+
+    // If on balance board, slow movemnt speed
+    if (Physics.Raycast(transform.position, Vector3.down, 0.4f, LayerMask.GetMask("Balance"))) {
+      displacement *= balanceFactor;
     }
 
     // Apply Horizontal Movement
-		transform.position = currentPosition;
+    transform.Translate(Vector3.right * displacement);
+
+    // Clamp movemnt to limits
+    transform.position = new Vector3(Mathf.Clamp(transform.position.x, -limits, limits), transform.position.y, transform.position.z);
 
     // Check if grounded
     if (timer <= 0.0f) {
