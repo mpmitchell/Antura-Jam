@@ -24,7 +24,6 @@ GameObject:
   - component: {fileID: 23172913711475170}
   - component: {fileID: 114561548644966130}
   - component: {fileID: 54857582207085876}
-  - component: {fileID: 65761541387645026}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -177,18 +176,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65761541387645026
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1478622152100500}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.99999994, y: 0.99999994, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!81 &81992152363796164
 AudioListener:
   m_ObjectHideFlags: 1
@@ -218,6 +205,8 @@ MonoBehaviour:
   horizontalSpeed: 10
   limits: 20
   jumpForce: 5
+  balanceFactor: 0.1
+  maxBalanceSpeed: 0.5
 --- !u!124 &124196677334631232
 Behaviour:
   m_ObjectHideFlags: 1

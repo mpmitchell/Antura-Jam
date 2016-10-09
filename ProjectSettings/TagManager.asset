@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameOver
   - Finished
+  - Flip
   layers:
   - Default
   - TransparentFX

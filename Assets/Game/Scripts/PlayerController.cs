@@ -78,10 +78,11 @@ public class PlayerController : MonoBehaviour {
   void OnTriggerEnter(Collider collider) {
     if (collider.tag == "GameOver") {
       SceneManager.LoadScene(3);
-    }
-
-    if (collider.tag == "Finished") {
+    } else if (collider.tag == "Finished") {
       SceneManager.LoadScene(2);
+    } else if (collider.tag == "Flip") {
+      Camera.main.projectionMatrix = Camera.main.projectionMatrix * Matrix4x4.Scale(new Vector3(1.0f, -1.0f, 1.0f));
+      GL.invertCulling = !GL.invertCulling;
     }
   }
 }
