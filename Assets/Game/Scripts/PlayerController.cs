@@ -7,10 +7,12 @@ public class PlayerController : MonoBehaviour {
 	[SerializeField] float limits = 20.0f;
   [SerializeField] float jumpForce = 5.0f;
   [SerializeField] float balanceFactor = 0.1f;
+  [SerializeField] float maxBalanceSpeed = 0.5f;
 
   new Rigidbody rigidbody;
   new Collider collider;
   float timer = 0.0f;
+  float previousDisplacement = 0.0f;
 
   void Start() {
     rigidbody = GetComponent<Rigidbody>();
@@ -35,9 +37,14 @@ public class PlayerController : MonoBehaviour {
       displacement = Time.fixedDeltaTime * -horizontalSpeed;
     }
 
-    // If on balance board, slow movemnt speed
-    if (Physics.Raycast(transform.position, Vector3.down, 0.4f, LayerMask.GetMask("Balance"))) {
+    // If on balance board, slow movemnt speed and maintain momentum
+    if (Physics.BoxCast(transform.position, collider.bounds.extents, Vector3.down, Quaternion.identity, 0.4f, LayerMask.GetMask("Balance"))) {
       displacement *= balanceFactor;
+      displacement += previousDisplacement;
+      displacement = Mathf.Clamp(displacement, 0.0f, maxBalanceSpeed);
+      previousDisplacement = displacement;
+    } else {
+      previousDisplacement = displacement * balanceFactor;
     }
 
     // Apply Horizontal Movement
