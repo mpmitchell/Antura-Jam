@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
   new Collider collider;
   float timer = 0.0f;
   float previousDisplacement = 0.0f;
+  float previousPitch = 0.0f;
 
   void Start() {
     rigidbody = GetComponent<Rigidbody>();
@@ -54,11 +55,15 @@ public class PlayerController : MonoBehaviour {
     // Clamp movemnt to limits
     transform.position = new Vector3(Mathf.Clamp(transform.position.x, -limits, limits), transform.position.y, transform.position.z);
 
+    // Get deltaPitch
+    float pitch = Input.acceleration.y;
+    float deltaPitch = pitch - previousPitch;
+
     // Check if grounded
     if (timer <= 0.0f) {
       if (Physics.Raycast(transform.position, Vector3.down, 0.4f, LayerMask.GetMask("Ground"))) {
         // If tilted up or key pressed, jump
-        if (Input.acceleration.y < -0.8f || Input.GetKeyDown("up")) {
+        if (Mathf.Abs(deltaPitch) > 0.2f || Input.GetKeyDown("up")) {
           rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
           timer = 0.3f;
         }
@@ -66,6 +71,8 @@ public class PlayerController : MonoBehaviour {
     } else {
       timer -= Time.fixedDeltaTime;
     }
+
+    previousPitch = pitch;
   }
 
   void OnTriggerEnter(Collider collider) {
