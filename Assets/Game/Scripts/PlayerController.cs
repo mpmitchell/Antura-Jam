@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
@@ -64,6 +65,16 @@ public class PlayerController : MonoBehaviour {
       }
     } else {
       timer -= Time.fixedDeltaTime;
+    }
+  }
+
+  void OnTriggerEnter(Collider collider) {
+    if (collider.tag == "GameOver") {
+      SceneManager.LoadScene(3);
+    }
+
+    if (collider.tag == "Finished") {
+      SceneManager.LoadScene(2);
     }
   }
 }
