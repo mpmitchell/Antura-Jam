@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
   [SerializeField] float jumpForce = 5.0f;
   [SerializeField] float balanceFactor = 0.1f;
   [SerializeField] float maxBalanceSpeed = 0.5f;
+  [SerializeField] float minBalanceSpeed = 0.3f;
 
   new Rigidbody rigidbody;
   new Collider collider;
@@ -43,7 +44,11 @@ public class PlayerController : MonoBehaviour {
     if (Physics.BoxCast(transform.position, collider.bounds.extents, Vector3.down, Quaternion.identity, 0.4f, LayerMask.GetMask("Balance"))) {
       displacement *= balanceFactor;
       displacement += previousDisplacement;
-      displacement = Mathf.Clamp(displacement, 0.0f, maxBalanceSpeed);
+      if (displacement > 0.0f) {
+        displacement = Mathf.Clamp(displacement, minBalanceSpeed, maxBalanceSpeed);
+      } else if ( displacement < 0.0f) {
+        displacement = Mathf.Clamp(displacement, -maxBalanceSpeed, -minBalanceSpeed);
+      }
       previousDisplacement = displacement;
     } else {
       previousDisplacement = displacement * balanceFactor;
